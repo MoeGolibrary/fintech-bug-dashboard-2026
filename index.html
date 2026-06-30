@@ -116,13 +116,6 @@
     <div class="card full"><h3>🧑‍🔧 CS Tickets by Assignee</h3><div class="chart-box tall"><canvas id="assignee"></canvas></div></div>
   </div>
 
-  <div class="zone">⭐ Ticket Quality<div class="z2">CS ticket-writing quality (field "Ticket Quality") · 5 Medium/Poor of 513</div></div>
-  <div class="grid">
-    <div class="card full"><h3>📈 Weekly Good Ticket Quality Rate (%)</h3><div class="chart-box tall"><canvas id="qTrend"></canvas></div></div>
-    <div class="card full"><h3>📉 Weekly Medium + Poor Ticket Count</h3><div class="chart-box tall"><canvas id="qBadTrend"></canvas></div></div>
-    <div class="card full"><h3>🚩 Poor Ticket Quality Ranking by Created By (Medium + Poor)</h3><div class="chart-box tall"><canvas id="qRank"></canvas></div></div>
-  </div>
-
   <div class="card full" style="margin-top:14px">
     <h3>📋 All FinTech Tickets (513)</h3>
     <div class="controls"><input id="search" placeholder="Filter by key / summary / domain / cause / component..."></div>
@@ -749,22 +742,6 @@ new Chart(cause,{type:'doughnut',data:{labels:["Bug (Unexpected Behavior)", "Use
 new Chart(domain,{type:'bar',data:{labels:["Payment", "Invoice", "Accounting/Quickbooks", "Membership", "Unset", "Subscription/Billing", "Capital", "Appointment", "Packages", "Clients & pets", "Report", "Discount", "Email Campaign", "Online Booking(Grooming)", "Online Booking(Multi-Service)"],datasets:[{data:[304, 94, 28, 27, 24, 15, 6, 3, 3, 3, 2, 1, 1, 1, 1],backgroundColor:PALETTE}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,onClick:aggClick('cf[11580]'),onHover:aggHover,...noLegend,plugins:{legend:{display:false},tooltip:{callbacks:{footer:()=>'🔗 Click to open Jira filter'}}}}});
 new Chart(component,{type:'bar',data:{labels:["Payments, Finance & QuickBooks", "Membership", "Account Billing & Subscriptions", "Appointment BD", "Client/pet/leads", "Uncategorized", "System notification", "Discount code", "Email campaign", "Online Booking (BD)", "Platform(Mobile App performance/System)", "Appointment (BD&grooming)"],datasets:[{data:[454, 29, 18, 2, 2, 2, 1, 1, 1, 1, 1, 1],backgroundColor:'#06b6d4'}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,onClick:aggClick('component'),onHover:aggHover,...noLegend,plugins:{legend:{display:false},tooltip:{callbacks:{footer:()=>'🔗 Click to open Jira filter'}}}}});
 new Chart(assignee,{type:'bar',data:{labels:["Rhea Ran", "Chi Huang", "Mars Zhang", "Jeason Wang", "Kade Chen", "Yunxiang Huang", "Yueyue Feng", "Ella Cheng", "Kuroko Gao", "Kenneth Cao", "Perqin Xie", "Jason Sun"],datasets:[{data:[265, 56, 39, 26, 21, 19, 14, 13, 13, 10, 7, 6],backgroundColor:'#a855f7'}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,...noLegend,plugins:{legend:{display:false}}}});
-
-// ---- ticket quality ----
-new Chart(qTrend,{type:'line',data:{labels:["week01(0101~0104)", "week02(0105~0111)", "week03(0112~0118)", "week04(0119~0125)", "week05(0126~0201)", "week06(0202~0208)", "week07(0209~0215)", "week08(0216~0222)", "week09(0223~0301)", "week10(0302~0308)", "week11(0309~0315)", "week12(0316~0322)", "week13(0323~0329)", "week14(0330~0405)", "week15(0406~0412)", "week16(0413~0419)", "week17(0420~0426)", "week18(0427~0503)", "week19(0504~0510)", "week20(0511~0517)", "week21(0518~0524)", "week22(0525~0531)", "week23(0601~0607)", "week24(0608~0614)", "week25(0615~0621)", "week26(0622~0628)", "week27(0629~0705)"],datasets:[{label:'Good quality rate %',data:[100.0, 95.7, 100.0, 100.0, 93.8, 100.0, 100.0, 100.0, 95.5, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 97.4, 95.2, 100.0, 100.0],borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,.12)',fill:true,tension:.3,pointRadius:3,borderWidth:3,spanGaps:true}]},options:{responsive:true,maintainAspectRatio:false,
-  onClick:(evt,els,chart)=>{if(!els.length)return;const wk=WEEK_RANGES[els[0].index];openJira(FBASE+' AND cf[11383] in ("Medium - Miss Key Info","Poor - Unclear") AND created >= "'+wk[0]+'" AND created < "'+wk[1]+'"');},
-  onHover:(e,els)=>{e.native.target.style.cursor=els.length?'pointer':'default';},
-  plugins:{legend:{display:false},tooltip:{callbacks:{label:(c)=>'Good '+c.parsed.y+'%',footer:()=>'🔗 Click → that week\'s Medium/Poor tickets'}}},
-  scales:{x:{ticks:{maxRotation:90,minRotation:60,autoSkip:false,font:{size:9}}},y:{beginAtZero:false,suggestedMax:100,ticks:{callback:(v)=>v+'%'}}}}});
-new Chart(qBadTrend,{type:'bar',data:{labels:["week01(0101~0104)", "week02(0105~0111)", "week03(0112~0118)", "week04(0119~0125)", "week05(0126~0201)", "week06(0202~0208)", "week07(0209~0215)", "week08(0216~0222)", "week09(0223~0301)", "week10(0302~0308)", "week11(0309~0315)", "week12(0316~0322)", "week13(0323~0329)", "week14(0330~0405)", "week15(0406~0412)", "week16(0413~0419)", "week17(0420~0426)", "week18(0427~0503)", "week19(0504~0510)", "week20(0511~0517)", "week21(0518~0524)", "week22(0525~0531)", "week23(0601~0607)", "week24(0608~0614)", "week25(0615~0621)", "week26(0622~0628)", "week27(0629~0705)"],datasets:[{"label": "Medium", "data": [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0], "backgroundColor": "#f59e0b", "qval": "Medium - Miss Key Info"}, {"label": "Poor", "data": [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0], "backgroundColor": "#ef4444", "qval": "Poor - Unclear"}]},options:{responsive:true,maintainAspectRatio:false,
-  onClick:(evt,els,chart)=>{if(!els.length)return;const el=els[0],ds=chart.data.datasets[el.datasetIndex],wk=WEEK_RANGES[el.index];openJira(FBASE+' AND cf[11383] = "'+ds.qval+'" AND created >= "'+wk[0]+'" AND created < "'+wk[1]+'"');},
-  onHover:(e,els)=>{e.native.target.style.cursor=els.length?'pointer':'default';},
-  plugins:{legend:{position:'bottom'},tooltip:{callbacks:{footer:()=>'🔗 Click a segment → Jira filter'}}},
-  scales:{x:{stacked:true,ticks:{maxRotation:90,minRotation:60,autoSkip:false,font:{size:9}}},y:{stacked:true,beginAtZero:true}}}});
-new Chart(qRank,{type:'bar',data:{labels:["Sam Sullivan", "Other", "Sai Lei"],datasets:[{data:[2, 2, 1],backgroundColor:'#ef4444'}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,...noLegend,
-  onClick:(evt,els,chart)=>{if(!els.length)return;const cb=chart.data.labels[els[0].index];const cbq=(cb==='Unset')?' AND cf[10450] is EMPTY':' AND cf[10450] = "'+cb+'"';openJira(FBASE+' AND cf[11383] in ("Medium - Miss Key Info","Poor - Unclear")'+cbq);},
-  onHover:(e,els)=>{e.native.target.style.cursor=els.length?'pointer':'default';},
-  plugins:{legend:{display:false},tooltip:{callbacks:{footer:()=>'🔗 Click a bar → that creator\'s Medium/Poor tickets'}}}}});
 
 document.querySelectorAll('.kpi[data-jql]').forEach(k=>{
   k.addEventListener('click',()=>openJira(k.getAttribute('data-jql')));
