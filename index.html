@@ -84,7 +84,7 @@
   <div class="grid">
     <div class="card full"><h3>📈 Weekly FinTech CS Ticket Trend (total + by feature domain)</h3><div class="chart-box tall"><canvas id="csTrend"></canvas></div></div>
     <div class="card full"><h3>🐞 Weekly Confirmed Bug Trend (total + by feature domain)</h3><div class="chart-box tall"><canvas id="bugTrend"></canvas></div></div>
-    <div class="card full"><h3>🧑‍🔧 Unresolved Confirmed Bugs by Assignee <span style="font-weight:400;color:#B0A498;font-size:12px">· open backlog · 41 open bugs · 0 unassigned · click a bar → that person's open bugs</span></h3><div class="chart-box tall"><canvas id="openRank"></canvas></div></div>
+    <div class="card full"><h3>🧑‍🔧 Unresolved CS Tickets by Assignee <span style="font-weight:400;color:#B0A498;font-size:12px">· open backlog · 83 open tickets · 1 unassigned · click a bar → that person's open tickets</span></h3><div class="chart-box tall"><canvas id="openRank"></canvas></div></div>
   </div>
   <div class="grid">
     <div class="card full"><h3>📊 Bugs by Feature Domain &amp; Priority — Last Week (week26(0622~0628), 5 bugs)</h3><div class="chart-box tall"><canvas id="domPri"></canvas></div></div>
@@ -745,12 +745,12 @@ new Chart(domain,{type:'bar',data:{labels:["Payment", "Invoice", "Accounting/Qui
 new Chart(component,{type:'bar',data:{labels:["Payments, Finance & QuickBooks", "Membership", "Account Billing & Subscriptions", "Appointment BD", "Client/pet/leads", "Uncategorized", "Platform(Mobile App performance/System)", "System notification", "Discount code", "Email campaign", "Online Booking (BD)", "Appointment (BD&grooming)"],datasets:[{data:[454, 29, 18, 2, 2, 2, 2, 1, 1, 1, 1, 1],backgroundColor:'#06b6d4'}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,onClick:aggClick('component'),onHover:aggHover,...noLegend,plugins:{legend:{display:false},tooltip:{callbacks:{footer:()=>'🔗 Click to open Jira filter'}}}}});
 new Chart(assignee,{type:'bar',data:{labels:["Rhea Ran", "Chi Huang", "Mars Zhang", "Jeason Wang", "Kade Chen", "Yunxiang Huang", "Yueyue Feng", "Ella Cheng", "Kuroko Gao", "Kenneth Cao", "Perqin Xie", "Jason Sun"],datasets:[{data:[266, 56, 39, 26, 21, 19, 14, 13, 13, 10, 7, 6],backgroundColor:'#a855f7'}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,...noLegend,plugins:{legend:{display:false}}}});
 
-// ---- unresolved confirmed bugs by assignee (clickable via accountId) ----
-const OPEN_RANK_IDS=["712020:2e788efb-dc8a-4000-b029-ab1d420c8d3e", "712020:fd16d445-d8fe-49f3-ad27-7a7052e77039", "712020:2b507b76-e8d4-48db-a70d-bd062cace95a", "712020:2993611e-e3d1-4fc6-9151-6e7759b41c2e", "712020:8805a11d-b205-4f2c-8d8e-23f144c5a0a0", "63155e599794410874c6b02b", "642a31b39f314a0a30143629", "712020:8040f970-9897-4d40-8771-553301549e5f", "712020:18a06f04-4f2d-41b2-8593-4b70692b48b3"];
-new Chart(openRank,{type:'bar',data:{labels:["Chi Huang", "Yunxiang Huang", "Rhea Ran", "Mars Zhang", "Kuroko Gao", "Perqin Xie", "Yueyue Feng", "Jeason Wang", "Kade Chen"],datasets:[{data:[17, 6, 4, 3, 3, 2, 2, 2, 2],backgroundColor:'#ef4444'}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,...noLegend,
-  onClick:(evt,els,chart)=>{if(!els.length)return;const id=OPEN_RANK_IDS[els[0].index];openJira(FBASE+CAUSE_BUG+' AND statusCategory != Done AND assignee = "'+id+'"');},
+// ---- unresolved CS tickets by assignee (clickable via accountId) ----
+const OPEN_RANK_IDS=["712020:2e788efb-dc8a-4000-b029-ab1d420c8d3e", "712020:2b507b76-e8d4-48db-a70d-bd062cace95a", "712020:2993611e-e3d1-4fc6-9151-6e7759b41c2e", "712020:fd16d445-d8fe-49f3-ad27-7a7052e77039", "712020:8040f970-9897-4d40-8771-553301549e5f", "712020:8805a11d-b205-4f2c-8d8e-23f144c5a0a0", "712020:18a06f04-4f2d-41b2-8593-4b70692b48b3", "63155e599794410874c6b02b", "642a31b39f314a0a30143629", "635897b9f7ad721e784dd207", "712020:6da8627e-8645-43d0-9bee-edeccca6adc6", "712020:820cd248-1d24-445f-9d06-39331449181f"];
+new Chart(openRank,{type:'bar',data:{labels:["Chi Huang", "Rhea Ran", "Mars Zhang", "Yunxiang Huang", "Jeason Wang", "Kuroko Gao", "Kade Chen", "Perqin Xie", "Yueyue Feng", "Sai Lei", "Qiu Chen", "Julie Yang"],datasets:[{data:[22, 19, 15, 8, 4, 3, 3, 2, 2, 2, 1, 1],backgroundColor:'#ef4444'}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,...noLegend,
+  onClick:(evt,els,chart)=>{if(!els.length)return;const id=OPEN_RANK_IDS[els[0].index];openJira(FBASE+' AND statusCategory != Done AND assignee = "'+id+'"');},
   onHover:(e,els)=>{e.native.target.style.cursor=els.length?'pointer':'default';},
-  plugins:{legend:{display:false},tooltip:{callbacks:{footer:()=>'🔗 Click a bar → that person\'s open FinTech bugs'}}}}});
+  plugins:{legend:{display:false},tooltip:{callbacks:{footer:()=>'🔗 Click a bar → that person\'s open FinTech tickets'}}}}});
 
 document.querySelectorAll('.kpi[data-jql]').forEach(k=>{
   k.addEventListener('click',()=>openJira(k.getAttribute('data-jql')));
