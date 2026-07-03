@@ -107,8 +107,8 @@
 
   <div class="zone">📊 Q2 Feature Domain Breakdown<div class="z2">Q2 (Apr–Jun 2026) · created in quarter · by feature domain · Bug vs Non-Bug · click a slice → Jira filter</div></div>
   <div class="grid">
-    <div class="card"><h3>🐞 Q2 Bug Tickets by Feature Domain (96)</h3><div class="chart-box tall"><canvas id="q2bug"></canvas></div></div>
-    <div class="card"><h3>🎫 Q2 Non-Bug Tickets by Feature Domain (158)</h3><div class="chart-box tall"><canvas id="q2non"></canvas></div></div>
+    <div class="card"><h3>🐛 Q2 Bug 类 by Feature Domain (124)<span style="font-weight:400;color:#B0A498;font-size:12px"> · Bug / Dirty Data / Data Migration / Service Reliability</span></h3><div class="chart-box tall"><canvas id="q2bug"></canvas></div></div>
+    <div class="card"><h3>🎨 Q2 产品设计类 by Feature Domain (56)<span style="font-weight:400;color:#B0A498;font-size:12px"> · User Mishandling / Misleading / Third Party</span></h3><div class="chart-box tall"><canvas id="q2non"></canvas></div></div>
   </div>
 
   <div class="zone">🔎 What Users Actually Report<div class="z2">按 issue cause 拆为 Bug 类 / 产品设计类，分别展示 ticket summary 关键词分类排名 · 每单按 summary 归一类 · 点击图或表行 → 近似 Jira summary 搜索（结果数可能与图不等）</div></div>
@@ -811,9 +811,8 @@ new Chart(problemRankProd,{type:'bar',data:{labels:["Paid/Unpaid Status Mismatch
 
 // ---- Q2 feature-domain pies (Bug vs Non-Bug) ----
 const J_Q2_JS=' AND created >= "2026-04-01" AND created < "2026-07-01"';
-// cf[10088] is multi-select; `!= Bug` excludes tickets that contain the Bug cause,
-// and `is EMPTY` re-includes tickets with no cause set — together = the Non-Bug set.
-const NONBUG=' AND (cf[10088] is EMPTY OR cf[10088] != "Bug (Unexpected Behavior)")';
+const BUG_TYPE_CLAUSE=" AND cf[10088] in (\"Bug (Unexpected Behavior)\", \"Dirty Data\", \"Data Migration\", \"Service Reliability\")";
+const PROD_TYPE_CLAUSE=" AND cf[10088] in (\"User Mishandling\", \"Misleading Product Experience\", \"Third Party\")";
 function domClauseJ(v){return (v==='Unset')?' AND cf[11580] is EMPTY':' AND cf[11580] = "'+v+'"';}
 function q2PieOpts(extra){return {responsive:true,maintainAspectRatio:false,
   onClick:(evt,els,chart)=>{if(!els.length)return;const v=chart.data.labels[els[0].index];openJira(FBASE+J_Q2_JS+extra+domClauseJ(v));},
@@ -821,8 +820,8 @@ function q2PieOpts(extra){return {responsive:true,maintainAspectRatio:false,
   plugins:{legend:{position:'right',labels:{boxWidth:10,font:{size:10}}},
     tooltip:{callbacks:{footer:()=>'🔗 Click to open Jira filter'}},
     datalabels:{display:true,color:'#fff',font:{weight:'bold',size:10},formatter:(v,ctx)=>{const s=ctx.chart.data.datasets[0].data.reduce((a,b)=>a+b,0);const p=v/s*100;return p>=4?Math.round(p)+'%':'';}}}};}
-new Chart(q2bug,{type:'doughnut',data:{labels:["Payment", "Invoice", "Capital", "Accounting/Quickbooks", "Packages", "Subscription/Billing", "Unset", "Online Booking(Grooming)", "Online Booking(Multi-Service)"],datasets:[{data:[71, 14, 4, 2, 1, 1, 1, 1, 1],backgroundColor:PALETTE}]},options:q2PieOpts(CAUSE_BUG)});
-new Chart(q2non,{type:'doughnut',data:{labels:["Payment", "Invoice", "Unset", "Accounting/Quickbooks", "Membership", "Subscription/Billing", "Capital", "Appointment BD"],datasets:[{data:[91, 26, 16, 10, 8, 5, 1, 1],backgroundColor:PALETTE}]},options:q2PieOpts(NONBUG)});
+new Chart(q2bug,{type:'doughnut',data:{labels:["Payment", "Invoice", "Capital", "Membership", "Accounting/Quickbooks", "Packages", "Subscription/Billing", "Unset", "Online Booking(Grooming)", "Online Booking(Multi-Service)"],datasets:[{data:[80, 28, 4, 4, 3, 1, 1, 1, 1, 1],backgroundColor:PALETTE}]},options:q2PieOpts(BUG_TYPE_CLAUSE)});
+new Chart(q2non,{type:'doughnut',data:{labels:["Payment", "Invoice", "Membership", "Subscription/Billing"],datasets:[{data:[47, 6, 2, 1],backgroundColor:PALETTE}]},options:q2PieOpts(PROD_TYPE_CLAUSE)});
 
 // ---- unresolved CS tickets by assignee (clickable via accountId) ----
 const OPEN_RANK_IDS=["712020:2b507b76-e8d4-48db-a70d-bd062cace95a", "712020:2e788efb-dc8a-4000-b029-ab1d420c8d3e", "712020:2993611e-e3d1-4fc6-9151-6e7759b41c2e", "712020:fd16d445-d8fe-49f3-ad27-7a7052e77039", "712020:8040f970-9897-4d40-8771-553301549e5f", "712020:18a06f04-4f2d-41b2-8593-4b70692b48b3", "712020:8805a11d-b205-4f2c-8d8e-23f144c5a0a0", "635897b9f7ad721e784dd207", "63155e599794410874c6b02b", "642a31b39f314a0a30143629", "712020:6da8627e-8645-43d0-9bee-edeccca6adc6", "712020:820cd248-1d24-445f-9d06-39331449181f"];
